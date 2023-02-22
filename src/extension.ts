@@ -53,7 +53,7 @@ export class CvUtilsProvider implements vscode.CodeActionProvider {
 
 	public async provideCodeActions(document: vscode.TextDocument, range: vscode.Range): Promise<vscode.Command[] | undefined> {
 
-		let path = await cvUtilsService.ViewImage(document, range);
+		let path = await cvUtilsService.getPath(document, range);
 		if (path === undefined) {
 			return;
 		}
