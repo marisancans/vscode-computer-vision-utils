@@ -17,10 +17,10 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('computer-vision-utils.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('cvi.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from computer-vision-utils!');
+		vscode.window.showInformationMessage('Hello from computer-vision-utils!');
 	});
 
 	context.subscriptions.push(disposable);
@@ -29,12 +29,14 @@ export function activate(context: vscode.ExtensionContext) {
     cvUtilsService = new CvUtilsService();
 
     context.subscriptions.push(
-		vscode.commands.registerTextEditorCommand("extension.computer-vision-utils", async editor => {
-			let path = await cvUtilsService.getPath(editor.document, editor.selection);
-			if (path === undefined) {
-				return;
-			}
-			vscode.commands.executeCommand("vscode.open", vscode.Uri.file(path), vscode.ViewColumn.Beside);
+		vscode.commands.registerTextEditorCommand("cvi.copyVariableToClipboard", async editor => {
+			let path = await cvUtilsService.copyVariableToClipboard(editor.document, editor.selection);
+		})
+	);
+
+    context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand("cvi.openWithViever", async editor => {
+			let path = await cvUtilsService.openWithViever(editor.document, editor.selection);
 		})
 	);
 }

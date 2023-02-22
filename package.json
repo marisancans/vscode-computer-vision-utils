@@ -10,21 +10,31 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:computer-vision-utils.helloWorld"
+    "onCommand:cvi.helloWorld"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.computer-vision-utils",
-        "title": "Computer vision utils",
+        "command": "cvi.copyVariableToClipboard",
+        "title": "Copy variable to clipboard",
+        "enablement": "inDebugMode"
+      },
+      {
+        "command": "cvi.openWithViever",
+        "title": "Open with viewer",
         "enablement": "inDebugMode"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.computer-vision-utils",
-        "key": "alt+shift+e",
+        "command": "cvi.copyVariableToClipboard",
+        "key": "meta+i meta+i",
+        "when": "inDebugMode"
+      },
+      {
+        "command": "cvi.openWithViever",
+        "key": "meta+o meta+o",
         "when": "inDebugMode"
       }
     ],

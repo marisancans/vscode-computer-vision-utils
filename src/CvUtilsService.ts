@@ -49,15 +49,32 @@ export default class CvUtilsService {
 
 
 		const vn = targetVariable.evaluateName; // var name
-		// const float_expression =  `${vn} * 255.0 if (isinstance(${vn}, (np.ndarray)) and (${vn}.dtype == np.float64 or ${vn}.dtype == np.float32)) else ${vn}`;
 		const expression = `str(${vn})`;
 		res = await session.customRequest("evaluate", { expression: expression, frameId: callStack, context:'hover' });
 		console.log(`evaluate ${expression} result: ${res.result}`);
         let variablePath = res.result;
         variablePath = variablePath.replace(/['"]+/g, '');
-        await vscode.env.clipboard.writeText(variablePath); 
-	
-        let pw = new PathViewer(variablePath);
+        return variablePath;
+    }
+
+    public async copyVariableToClipboard(document: vscode.TextDocument, range: vscode.Range) {
+        const path = await this.getPath(document, range);
+
+        if (path === undefined) {
+            return;
+        }
+
+        await vscode.env.clipboard.writeText(path); 
+    }
+
+    public async openWithViever(document: vscode.TextDocument, range: vscode.Range) {
+        const path = await this.getPath(document, range);
+
+        if (path === undefined) {
+            return;
+        }
+
+        let pw = new PathViewer(path);
         pw.showPath();
     }
 }
